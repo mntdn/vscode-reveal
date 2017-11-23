@@ -3,6 +3,14 @@ import { RevealJsOptions} from './Models';
 export class Template {
 
     public static Render (title:string, revealOptions:RevealJsOptions, slides:any  ):string{
+        let jsEvents = '';
+        if(revealOptions.customEvents && revealOptions.customEvents.length > 0){
+            revealOptions.customEvents.map((value, index) => {
+                jsEvents += `Reveal.addEventListener( '${value.eventName}', function() {
+                    ${value.eventCode}
+                } );`;
+            })
+        }
 
         return `<!doctype html>
 <html lang="en">
@@ -11,7 +19,7 @@ export class Template {
         <title>${title}</title>
         <link rel="stylesheet" href="css/reveal.css">
         <link rel="stylesheet" href="css/theme/${revealOptions.theme}.css" id="theme">
-        <link rel="stylesheet" href="${revealOptions.customTheme}.css" id="theme">
+        <link rel="stylesheet" href="${revealOptions.customTheme}.css" id="customTheme">
         <!-- For syntax highlighting -->
         <link rel="stylesheet" href="lib/css/${revealOptions.highlightTheme}.css">
         <link rel="stylesheet" href="lib/css/${revealOptions.customHighlightTheme}.css">
@@ -66,6 +74,7 @@ export class Template {
             var options = ${ JSON.stringify(revealOptions, null, 2)};
             options = extend(defaultOptions, options, queryOptions);
             Reveal.initialize(options);
+            ${jsEvents}
         </script>
         
     </body>

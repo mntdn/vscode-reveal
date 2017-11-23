@@ -15,6 +15,11 @@ export interface SlidifyOptions {
     notesSeparator: string;
 }
 
+export interface CustomEvent {
+    eventName: string;
+    eventCode: string;
+}
+
 export interface RevealJsOptions {
 
     theme?: string;
@@ -52,4 +57,5 @@ export interface RevealJsOptions {
     parallaxBackgroundSize: string; // CSS syntax, e.g. "2100px 900px"
     parallaxBackgroundHorizontal?: number;
     parallaxBackgroundVertical?: number;
+    customEvents?: CustomEvent[];
 }
